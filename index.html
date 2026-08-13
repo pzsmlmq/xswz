@@ -13,10 +13,10 @@
         :根元素 {
             --背景: #f5f9ff;
             --卡片背景: #ffffff;
-            --卡片边框: #eef4fa;
+            ——卡片边框: #eef4fa;
             --card-shadow: 0 4px 12px rgba(0,20,40,0.04);
             --card-shadow-hover: 0 8px 24px rgba(26,95,180,0.10);
-            --主文本颜色: #0b2b4a;
+            ——主文本颜色: #0b2b4a;
             --text-secondary: #5e6f8d;
             --text-muted: #7a8aa5;
             --accent: #1a5fb4;
@@ -27,10 +27,10 @@
             --search-shadow: 0 8px 20px rgba(26,95,180,0.10);
             --feature-bg: linear-gradient(135deg, #e9f2ff, #ffffff);
             --feature-border: #1a5fb4;
-            --divider：#e5edf5；
-            --toast-bg: #0b2b4a;
-            --toast-text: #ffffff;
-            --coming-opacity: 0.6;
+            --分隔线：#e5edf5；
+            --toast背景色: #0b2b4a;
+            --toast文本颜色: #ffffff;
+            --即将上线透明度: 0.6;
             --today-rec-glow: #f59e0b;
             --warning-bg: #fff8e1;
             --warning-text: #b45309;
@@ -174,7 +174,7 @@
         .feedback-btn:active { transform: scale(0.9); }
         .页脚 { 上边距: 30px; 字体大小: 13px; 颜色: 变量(--text-muted); 文本对齐: 居中; 上边框: 1px 实线 变量(——分隔线); 上内边距: 20px; 宽度: 100%; 行高: 1.8; }
         .页脚 a { 颜色: 变量(--强调色); 文本装饰: 无; }
-        .toast { position:fixed; top:24px; left:50%; transform:translateX(-50%) translateY(-120px); background:var(--toast-bg); 颜色:变量(—toast-text); 内边距:12px 24px; 圆角半径:30px; 字体大小:14px; 层叠顺序:9999; 阴影:0 8px 30px rgba(0,0,0,0.2); 过渡:transform 0.35秒 三次贝塞尔曲线(0.175, 0.885, 0.32, 1.275); pointer-events:none; }
+        .toast { position:fixed; top:24px; left:50%; transform:translateX(-50%) translateY(-120px); background:var(--toast-bg); 颜色:变量(—toast-text); 内边距:12px 24px; 圆角半径:30px; 字体大小:14px; 层叠顺序:9999; 阴影:0 8px 30px rgba(0,0,0,0.2); 过渡:transform 0.35秒 三次贝塞尔曲线(0.175, 0.885, 0.32, 1.275); 指针事件:无; }
         .toast.show { transform:translateX(-50%) translateY(0); }
         @media (max-width:400px) { .grid { gap:10px; } .卡片 { 内边距:14px 10px; 最小高度:70px; } .页眉 h1 { 字体大小:24px; } .学校搜索 { 弹性布局方向: 列; } }
     </style>
@@ -234,7 +234,7 @@
                 标注"社区"或"个人开发者"的站点为非官方平台，请用户自行甄别<br>
                 <strong>标注“付费/部分付费”的工具，使用前请仔细阅读其收费规则</strong><br>
                 考试时间仅供参考，具体以官网最新通知为准<br>
-                部分学术资源可能需要机构订阅，请遵守各平台版权规定<br>
+                部分学术资源可能需要机构订阅，请遵守各平台版权规定<<br>>
                 如有侵权或建议，请联系 <a href="mailto:3392188119@qq.com">3392188119@qq.com</a>
             </p>
         </footer>
@@ -333,7 +333,7 @@
                 if (item.coming) {
                     卡片.classList.添加('即将上线');
                     card.href = '#';
-                } else {
+                } 否则 {
                     card.href = item.url;
                     card.target = '_blank';
                     card.rel = 'noopener';
