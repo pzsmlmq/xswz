@@ -1,0 +1,590 @@
+[index.html](https://github.com/user-attachments/files/31026795/index.html)
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>准大一 · 新生中转站</title>
+    <meta name="description" content="准大一新生专属导航站，整合免费学习资源、四六级考研官网、AI备考工具，手机友好。">
+    <meta 属性="og:title" 内容="新生中转站 - 免费学习导航">
+    <meta property="og:description" content="一站式大学学习工具与资源，告别信息焦虑。">
+    <link rel="preconnect" href="https://cn.bing.com">
+    <link rel="preconnect" href="https://www.bilibili.com">
+    <style>
+        :root {
+            --bg: #f5f9ff;
+            --card-bg: #ffffff;
+            --card-border: #eef4fa;
+            --card-shadow: 0 4px 12px rgba(0,20,40,0.04);
+            --card-shadow-hover: 0 8px 24px rgba(26,95,180,0.10);
+            --text-primary: #0b2b4a;
+            --text-secondary: #5e6f8d;
+            --text-muted: #7a8aa5;
+            --accent: #1a5fb4;
+            --accent-light: #d0e2ff;
+            --accent-bg: rgba(74,144,217,0.06);
+            --accent-bg-strong: #f0f7ff;
+            --search-bg: #ffffff;
+            --search-shadow: 0 8px 20px rgba(26,95,180,0.10);
+            --feature-bg: linear-gradient(135deg, #e9f2ff, #ffffff);
+            --feature-border: #1a5fb4;
+            --divider: #e5edf5;
+            --toast-bg: #0b2b4a;
+            --toast-text: #ffffff;
+            --coming-opacity: 0.6;
+            --today-rec-glow: #f59e0b;
+            --warning-bg: #fff8e1;
+            --warning-text: #b45309;
+            --time-bg: #eef4fa;
+            --time-text: #1a5fb4;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f1a2e;
+                --card-bg: #18273f;
+                --card-border: #1e3150;
+                --card-shadow: 0 4px 12px rgba(0,0,0,0.20);
+                --card-shadow-hover: 0 8px 24px rgba(74,144,217,0.12);
+                --text-primary: #e2ecff;
+                --text-secondary: #a0b8d8;
+                --text-muted: #7d95b8;
+                --accent: #5b9cf5;
+                --accent-light: #1e3a60;
+                --accent-bg: rgba(91,156,245,0.08);
+                --accent-bg-strong: #15253d;
+                --search-bg: #18273f;
+                --search-shadow: 0 8px 20px rgba(0,0,0,0.30);
+                --feature-bg: linear-gradient(135deg, #16253d, #18273f);
+                --feature-border: #3a70c0;
+                --divider: #1e3150;
+                --toast-bg: #e2ecff;
+                --toast-text: #0b2b4a;
+                --coming-opacity: 0.45;
+                --warning-bg: #2d1f0a;
+                --warning-text: #fbbf24;
+                --time-bg: #1e3150;
+                --time-text: #8ab8f0;
+            }
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+        body {
+            background: var(--bg);
+            padding: 20px 16px 40px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            color: var(--text-primary);
+            transition: background 0.3s, color 0.3s;
+            position: relative;
+        }
+        .container { max-width: 560px; width: 100%; }
+        .skip-link { position:absolute; top:-100px; left:16px; background:var(--accent); color:#fff; padding:8px 16px; border-radius:8px; font-size:14px; z-index:1000; text-decoration:none; }
+        .skip-link:focus { top:12px; }
+        .header { margin-top:8px; margin-bottom:28px; }
+        .header h1 { font-size:28px; font-weight:700; color:var(--text-primary); letter-spacing:-0.5px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+        .header h1 .badge { background:var(--accent-light); color:var(--accent); font-size:13px; font-weight:600; padding:3px 12px; border-radius:30px; }
+        .header .subtitle { color:var(--text-secondary); font-size:15px; margin-top:8px; border-left:3px solid var(--accent); padding-left:12px; background:var(--accent-bg); border-radius:0 8px 8px 0; line-height:1.5; }
+        .search-box {
+            background: var(--search-bg);
+            border-radius: 30px;
+            padding: 6px 6px 6px 20px;
+            margin-bottom: 12px;
+            box-shadow: var(--search-shadow);
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(4px);
+        }
+        .search-box:focus-within { box-shadow: 0 0 0 3px rgba(26,95,180,0.15), var(--search-shadow); border-color: var(--accent); }
+        .search-box input { border:none; outline:none; flex:1; font-size:15px; background:transparent; color:var(--text-primary); caret-color:var(--accent); }
+        .search-box input::placeholder { color:#a0b3cc; }
+        .search-box .search-btn { background:var(--accent); border:none; color:white; padding:10px 20px; border-radius:30px; font-size:15px; font-weight:600; cursor:pointer; white-space:nowrap; box-shadow:0 4px 8px rgba(26,95,180,0.2); transition:all 0.2s; }
+        .search-box .search-btn:active { transform:scale(0.94); }
+        .school-search { display:flex; gap:8px; margin-bottom:20px; }
+        .school-search input { flex:1; padding:10px 16px; border-radius:30px; border:1px solid var(--card-border); background:var(--search-bg); color:var(--text-primary); font-size:14px; outline:none; box-shadow:var(--search-shadow); }
+        .school-search input:focus { border-color: var(--accent); }
+        .school-search button { background:var(--accent); border:none; color:white; padding:10px 18px; border-radius:30px; font-size:14px; font-weight:600; cursor:pointer; white-space:nowrap; box-shadow:0 4px 8px rgba(26,95,180,0.2); transition:all 0.2s; }
+        .school-search button:active { transform: scale(0.94); }
+        .feature-card {
+            background: var(--feature-bg);
+            border: 1.5px dashed var(--feature-border);
+            border-radius: 18px;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.25s;
+        }
+        .feature-card:active { transform:scale(0.97); border-style:solid; }
+        .feature-card .left { display:flex; flex-direction:column; }
+        .feature-card .left strong { font-size:16px; }
+        .feature-card .left small { font-size:13px; color:var(--text-secondary); }
+        .feature-card .tag { background:var(--accent); color:white; padding:6px 16px; border-radius:30px; font-size:13px; font-weight:600; }
+        .feature-card .tag.community { background: var(--warning-bg); color: var(--warning-text); }
+        .section-title { font-size:18px; font-weight:600; color:var(--text-primary); margin:24px 0 14px; display:flex; align-items:center; gap:10px; }
+        .section-title .accent-bar { display:inline-block; width:4px; height:18px; background:var(--accent); border-radius:4px; }
+        .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+        .card {
+            background: var(--card-bg);
+            padding: 16px 12px;
+            border-radius: 18px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--card-border);
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            min-height: 80px;
+            justify-content: flex-start;
+            position: relative;
+            overflow: hidden;
+        }
+        .card:active { transform:scale(0.96); background:var(--accent-bg-strong); border-color:var(--accent); }
+        .card .emoji { font-size:24px; margin-bottom:6px; }
+        .card .name { font-weight:600; font-size:16px; color:var(--text-primary); display:flex; align-items:center; flex-wrap:wrap; gap:4px; }
+        .card .time {
+            font-size: 12px;
+            color: var(--time-text);
+            background: var(--time-bg);
+            padding: 2px 8px;
+            border-radius: 30px;
+            margin: 6px 0 4px 0;
+            font-weight: 500;
+            display: inline-block;
+            align-self: flex-start;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+        .card .desc { font-size:12px; color:var(--text-muted); margin-top:4px; line-height:1.4; }
+        .card.coming { opacity:var(--coming-opacity); filter:grayscale(0.15); cursor:not-allowed; border-style:dashed; pointer-events:auto; }
+        .card.coming:active { transform:none; background:var(--card-bg); border-color:var(--card-border); }
+        .card.coming .name::after { content:" 即将上线"; font-size:10px; color:var(--text-muted); margin-left:4px; }
+        .card.today-rec { border: 2px solid var(--today-rec-glow); box-shadow: 0 0 12px rgba(245,158,11,0.25); }
+        .badge-paid {
+            font-size: 10px;
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 1px 8px;
+            border-radius: 30px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        @media (prefers-color-scheme: dark) {
+            .badge-paid { background: #451a1a; color: #fca5a5; }
+        }
+        .disclaimer-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin: 24px 0 12px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            box-shadow: var(--card-shadow);
+        }
+        .disclaimer-card summary { font-weight: 600; cursor: pointer; color: var(--text-primary); outline: none; }
+        .disclaimer-content { margin-top: 10px; line-height: 1.7; }
+        .disclaimer-content ul { padding-left: 20px; }
+        .disclaimer-content li { margin-bottom: 6px; }
+        .disclaimer-content a { color: var(--accent); text-decoration: underline; }
+        .bookmark-hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            z-index: 1000;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            animation: slideUp 0.4s ease;
+        }
+        @keyframes slideUp { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+        .feedback-btn {
+            position: fixed;
+            bottom: 28px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            text-decoration: none;
+            z-index: 999;
+            transition: transform 0.2s;
+        }
+        .feedback-btn:active { transform: scale(0.9); }
+        .footer {
+            margin-top: 30px;
+            font-size: 13px;
+            color: var(--text-muted);
+            text-align: center;
+            border-top: 1px solid var(--divider);
+            padding-top: 20px;
+            width: 100%;
+            line-height: 1.8;
+        }
+        .footer a { color: var(--accent); text-decoration: none; }
+        .toast { position:fixed; top:24px; left:50%; transform:translateX(-50%) translateY(-120px); background:var(--toast-bg); color:var(--toast-text); padding:12px 24px; border-radius:30px; font-size:14px; z-index:9999; box-shadow:0 8px 30px rgba(0,0,0,0.2); transition:transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events:none; }
+        .toast.show { transform:translateX(-50%) translateY(0); }
+        @media (max-width:400px) {
+            .grid { gap:10px; }
+            .card { padding:14px 10px; min-height:70px; }
+            .header h1 { font-size:24px; }
+            .school-search { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">跳转到主要内容</a>
+    <div class="container" id="main-content">
+        <header class="header">
+            <h1>🎓 新生站 <span class="badge">免费学习版</span></h1>
+            <p class="subtitle">📌 精选免费资源 · 学校官网直达 · 考研择校工具</p>
+        </header>
+
+        <div class="search-box" role="search">
+            <input type="text" id="searchInput" placeholder="搜索课程、技能或资源...">
+            <button class="search-btn" id="searchBtn">快速跳转</button>
+        </div>
+        <div class="school-search">
+            <input type="text" id="schoolInput" placeholder="输入大学全名，直达官网">
+            <button id="schoolBtn">🎓 找官网</button>
+        </div>
+
+        <a href="https://www.chsi.com.cn/" target="_blank" rel="noopener" class="feature-card">
+            <div class="left"><strong>📋 学信网 · 官方入口</strong><small>学历查询 · 报名验证</small></div>
+            <span class="tag">官方</span>
+        </a>
+        <a href="https://examcrafts.com/" target="_blank" rel="noopener" class="feature-card">
+            <div class="left"><strong>🤖 ExamCrafts · AI备考</strong><small>个人开发者作品 · 社区版</small></div>
+            <span class="tag community">社区</span>
+        </a>
+
+        <!-- 新生交流群信息 -->
+        <div class="feature-card" style="border-color: #0ea5e9; cursor: default;">
+            <div class="left">
+                <strong>💬 新生交流群 · 欢迎加入</strong>
+                <small>QQ群：1102946200（进群答案：我是新生）</small>
+            </div>
+            <span class="tag" style="background: #0ea5e9;">进群讨论</span>
+        </div>
+
+        <!-- 考证信息专区（含考试时间） -->
+        <div class="section-title"><span class="accent-bar"></span>📋 考证信息 · 考试时间一览</div>
+        <div class="grid" id="grid-cert"></div>
+
+        <div id="dynamic-sections"></div>
+
+        <div class="section-title"><span class="accent-bar"></span>即将解锁 · 工具箱</div>
+        <div class="grid" id="grid-coming"></div>
+
+        <div class="disclaimer-card">
+            <details>
+                <summary>📜 免责声明与使用须知</summary>
+                <div class="disclaimer-content">
+                    <ul>
+                        <li>本站仅提供第三方网站链接导航，不对其内容准确性、合法性及可用性负责</li>
+                        <li>标注“社区”或“个人开发者”的站点为非官方平台，请用户自行甄别</li>
+                        <li><strong>标注“付费/部分付费”的工具，使用前请仔细阅读其收费规则</strong></li>
+                        <li>部分学术资源可能需要机构订阅，请遵守各平台版权规定</li>
+                        <li>考试时间仅供参考，具体以官网最新通知为准</li>
+                        <li>本站仅提供网址导航服务，所链资源均来自互联网，版权归原作者所有</li>
+                        <li>如有侵权或建议，请联系 <a href="mailto:3392188119@qq.com">3392188119@qq.com</a></li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <footer class="footer">
+            <p style="font-weight:600; margin-bottom:6px;">⚡ 新生中转站 · 免费学习导航</p>
+            <p style="font-size:12px; max-width:400px; margin:0 auto;">
+                本站仅提供第三方网站链接导航，不对其内容准确性、合法性及可用性负责<br>
+                标注“社区”或“个人开发者”的站点为非官方平台，请用户自行甄别<br>
+                <strong>标注“付费/部分付费”的工具，使用前请仔细阅读其收费规则</strong><br>
+                考试时间仅供参考，具体以官网最新通知为准<br>
+                部分学术资源可能需要机构订阅，请遵守各平台版权规定<br>
+                如有侵权或建议，请联系 <a href="mailto:3392188119@qq.com">3392188119@qq.com</a>
+            </p>
+        </footer>
+    </div>
+
+    <a href="mailto:3392188119@qq.com?subject=新生站反馈" class="feedback-btn" title="反馈建议">💬</a>
+    <div class="toast" id="toast"></div>
+
+    <script>
+        (function() {
+            // ==================== 考证数据（含考试时间） ====================
+            const certData = [
+                { emoji: '📝', name: '英语四六级(CET)', time: '每年6月、12月（具体以官网通知为准）', desc: '大学生必考 · 教育部考试院', url: 'https://cet-bm.neea.edu.cn/' },
+                { emoji: '🇯🇵', name: '日语能力考(JLPT)', time: '每年7月、12月第一个周日', desc: 'N1-N5 · 教育部考试院', url: 'https://jlpt.neea.edu.cn/' },
+                { emoji: '💻', name: '计算机等级(NCRE)', time: '每年3月、9月、12月（具体以官网通知为准）', desc: '全国通用 · 教育部考试院', url: 'https://ncre-bm.neea.cn/' },
+                { emoji: '👨‍🏫', name: '教师资格证(NTCE)', time: '笔试3月/11月 · 面试1月/5月（具体以官网通知为准）', desc: '中小学教师 · 教育部考试院', url: 'https://ntce.neea.edu.cn/' },
+                { emoji: '📊', name: '注册会计师(CPA)', time: '专业阶段8月 · 综合阶段8月（具体以官网通知为准）', desc: '财会含金量高 · 中注协', url: 'https://cpaexam.cicpa.org.cn/' }
+            ];
+
+            // ==================== 主数据 ====================
+            const linkData = [
+                // 官网直通车
+                { category: 'official', emoji: '📝', name: '四六级官网', desc: 'CET·考试院', url: 'https://www.neea.edu.cn/' },
+                { category: 'official', emoji: '📚', name: '研招网', desc: '考研官方信息', url: 'https://yz.chsi.com.cn/' },
+                { category: 'official', emoji: '🏫', name: '阳光高考', desc: '官方高招信息', url: 'https://gaokao.chsi.com.cn/' },
+                { category: 'official', emoji: '🎥', name: '中国大学MOOC', desc: '名校课程', url: 'https://www.icourse163.org/' },
+                { category: 'official', emoji: '🏛️', name: '华图教育', desc: '考研·考公', url: 'https://www.huatu.com/' },
+                { category: 'official', emoji: '📋', name: '中公教育', desc: '考试资讯', url: 'https://www.offcn.com/' },
+
+                // 考研升学
+                { category: 'postgraduate', emoji: '🎯', name: '考研搜', desc: '择校查询 · 每日免费2次 · 部分付费', url: 'https://www.kaoyansou.cn/' },
+
+                // 综合学习平台
+                { category: 'platform', emoji: '📖', name: '学堂在线', desc: '清华主导', url: 'https://next.xuetangx.com/' },
+                { category: 'platform', emoji: '📺', name: 'B站知识区', desc: '海量视频', url: 'https://www.bilibili.com/v/knowledge' },
+                { category: 'platform', emoji: '🌍', name: '网易公开课', desc: 'TED·名校', url: 'https://open.163.com/' },
+                { category: 'platform', emoji: '🧮', name: '可汗学院', desc: '全科免费', url: 'https://www.khanacademy.org/' },
+                { category: 'platform', emoji: '🎓', name: 'Coursera', desc: '旁听名校课', url: 'https://www.coursera.org/' },
+                { category: 'platform', emoji: '🏫', name: 'edX', desc: '哈佛/MIT课', url: 'https://www.edx.org/' },
+                { category: 'platform', emoji: '🧑‍🏫', name: '粉笔网', desc: '考研·考公·四六级', url: 'https://www.fenbi.com/' },
+                { category: 'platform', emoji: '🚪', name: '万门大学', desc: '多领域课程', url: 'https://www.wanmen.org/' },
+                { category: 'platform', emoji: '📊', name: '三节课', desc: '互联网职业课程', url: 'https://www.sanjieke.cn/' },
+                { category: 'platform', emoji: '🎤', name: '一席', desc: '现场演讲·知识分享', url: 'https://yixi.tv/' },
+
+                // 编程技术
+                { category: 'programming', emoji: '🐍', name: '菜鸟教程', desc: '编程入门', url: 'https://www.runoob.com/' },
+                { category: 'programming', emoji: '🌐', name: 'W3Schools', desc: 'Web基础', url: 'https://www.w3schools.com/' },
+                { category: 'programming', emoji: '⚡', name: 'LeetCode', desc: '刷题面试', url: 'https://leetcode.cn/' },
+                { category: 'programming', emoji: '🐙', name: 'GitHub', desc: '开源代码', url: 'https://github.com/' },
+                { category: 'programming', emoji: '🔥', name: 'freeCodeCamp', desc: '全栈认证', url: 'https://www.freecodecamp.org/' },
+                { category: 'programming', emoji: '🖥️', name: '实验楼', desc: '在线实战', url: 'https://www.shiyanlou.com/' },
+
+                // 语言学习
+                { category: 'language', emoji: '🦉', name: '多邻国', desc: '游戏化学语言', url: 'https://www.duolingo.com/' },
+                { category: 'language', emoji: '🇨🇳', name: '沪江英语', desc: '学习资料库', url: 'https://www.hjenglish.com/' },
+                { category: 'language', emoji: '📻', name: 'VOA慢速英语', desc: '听力新闻', url: 'https://www.21voa.com/' },
+                { category: 'language', emoji: '🇬🇧', name: 'BBC Learning', desc: '英音表达', url: 'https://www.bbc.co.uk/learningenglish' },
+                { category: 'language', emoji: '💬', name: 'HelloTalk', desc: '语言交换', url: 'https://www.hellotalk.com/' },
+                { category: 'language', emoji: '🎧', name: 'YouZack', desc: '听力练习', url: 'https://www.youzack.com/' },
+
+                // 学术文献
+                { category: 'academic', emoji: '🔍', name: 'Google学术', desc: '论文搜索', url: 'https://scholar.google.com/' },
+                { category: 'academic', emoji: '📑', name: '中国知网', desc: '学术文献（需订阅）', url: 'https://www.cnki.net/' },
+                { category: 'academic', emoji: '📚', name: '鸠摩搜书', desc: '电子书检索', url: 'https://www.jiumodiary.com/' },
+                { category: 'academic', emoji: '📘', name: 'wikiHow', desc: '万事指南', url: 'https://zh.wikihow.com/' },
+                { category: 'academic', emoji: '🗺️', name: '全历史', desc: '知识图谱', url: 'https://www.allhistory.com/' },
+                { category: 'academic', emoji: '🧪', name: 'ResearchGate', desc: '学术社交·文献', url: 'https://www.researchgate.net/' },
+                { category: 'academic', emoji: '📜', name: 'JSTOR', desc: '人文社科文献', url: 'https://www.jstor.org/' },
+                { category: 'academic', emoji: '🔬', name: 'ScienceDirect', desc: '理工医学文献', url: 'https://www.sciencedirect.com/' },
+                { category: 'academic', emoji: '🏛️', name: '国家哲社中心', desc: '免费社科文献', url: 'https://www.nssd.cn/' },
+
+                // 效率工具
+                { category: 'tools', emoji: '☁️', name: '百度网盘', desc: '资料存储', url: 'https://pan.baidu.com/' },
+                { category: 'tools', emoji: '📄', name: '腾讯文档', desc: '在线协作', url: 'https://docs.qq.com/' },
+                { category: 'tools', emoji: '✍️', name: '石墨文档', desc: '协作文档', url: 'https://shimo.im/' },
+                { category: 'tools', emoji: '💬', name: '知乎', desc: '经验问答', url: 'https://www.zhihu.com/' },
+                { category: 'tools', emoji: '🏆', name: '智慧职教', desc: '技能大赛', url: 'https://www.icve.com.cn/' },
+
+                // 求职就业
+                { category: 'jobs', emoji: '🧑‍💼', name: '实习僧', desc: '大学生实习', url: 'https://www.shixiseng.com/' },
+                { category: 'jobs', emoji: '📋', name: 'Boss直聘', desc: '直聊找工作', url: 'https://www.zhipin.com/' },
+                { category: 'jobs', emoji: '🔍', name: '天眼查', desc: '查公司防骗', url: 'https://www.tianyancha.com/' },
+                { category: 'jobs', emoji: '🌐', name: '智联招聘', desc: '一线城市岗位', url: 'https://www.zhaopin.com/' },
+                { category: 'jobs', emoji: '🏢', name: '前程无忧', desc: '二三线岗位多', url: 'https://www.51job.com/' },
+                { category: 'jobs', emoji: '📊', name: '拉勾招聘', desc: '互联网行业', url: 'https://www.lagou.com/' },
+                { category: 'jobs', emoji: '📈', name: '中国公共招聘网', desc: '官方就业平台', url: 'http://www.job.mohrss.gov.cn/' },
+                { category: 'jobs', emoji: '🎓', name: '教育部就业网', desc: '大学生就业', url: 'https://www.ncss.cn/' },
+
+                // 生活兴趣
+                { category: 'lifestyle', emoji: '🍳', name: '下厨房', desc: '菜谱·生活技能', url: 'https://www.xiachufang.com/' },
+                { category: 'lifestyle', emoji: '🎨', name: '站酷', desc: '设计·插画·摄影', url: 'https://www.zcool.com.cn/' },
+                { category: 'lifestyle', emoji: '🖼️', name: '中国美术馆', desc: '美术展览', url: 'https://www.namoc.org/' },
+                { category: 'lifestyle', emoji: '🎹', name: 'Flowkey', desc: '免费学钢琴', url: 'https://www.flowkey.com/' },
+                { category: 'lifestyle', emoji: '🏛️', name: '中国科普博览', desc: '线上博物馆', url: 'https://www.kepu.net.cn/' },
+
+                // 即将解锁
+                { category: 'coming', emoji: '🗓️', name: '大学日历', desc: '校历提醒', url: '#', coming: true },
+                { category: 'coming', emoji: '🧮', name: 'GPA计算器', desc: '成绩估算', url: '#', coming: true }
+            ];
+
+            const sections = [
+                { id: 'grid-official', title: '官网直通车', category: 'official' },
+                { id: 'grid-postgraduate', title: '🎯 考研升学 · 择校工具', category: 'postgraduate' },
+                { id: 'grid-platform', title: '🎓 免费综合学习平台', category: 'platform' },
+                { id: 'grid-programming', title: '💻 编程 · 技术 · 技能', category: 'programming' },
+                { id: 'grid-language', title: '🗣️ 语言学习（免费）', category: 'language' },
+                { id: 'grid-academic', title: '📖 学术 · 电子书 · 文档', category: 'academic' },
+                { id: 'grid-tools', title: '🧰 效率 · 必备工具', category: 'tools' },
+                { id: 'grid-jobs', title: '🧳 求职就业 · 实习', category: 'jobs' },
+                { id: 'grid-lifestyle', title: '🎨 生活兴趣 · 技能', category: 'lifestyle' }
+            ];
+
+            const dynamicContainer = document.getElementById('dynamic-sections');
+
+            // 创建普通卡片（主数据）
+            function createCardElement(item) {
+                const card = document.createElement('a');
+                card.className = 'card';
+                if (item.coming) {
+                    card.classList.add('coming');
+                    card.href = '#';
+                } else {
+                    card.href = item.url;
+                    card.target = '_blank';
+                    card.rel = 'noopener';
+                }
+
+                const paidBadge = (item.desc && item.desc.includes('付费')) ? '<span class="badge-paid">付费</span>' : '';
+                card.innerHTML = `
+                    <div class="emoji">${item.emoji}</div>
+                    <div class="name">${item.name} ${paidBadge}</div>
+                    <div class="desc">${item.desc || ''}</div>
+                `;
+                return card;
+            }
+
+            // 渲染考证板块（带时间标签）
+            function renderCertSection() {
+                const grid = document.getElementById('grid-cert');
+                if (!grid) return;
+                certData.forEach(item => {
+                    const card = document.createElement('a');
+                    card.className = 'card';
+                    card.href = item.url;
+                    card.target = '_blank';
+                    card.rel = 'noopener';
+                    card.innerHTML = `
+                        <div class="emoji">${item.emoji}</div>
+                        <div class="name">${item.name}</div>
+                        <div class="time">📅 ${item.time}</div>
+                        <div class="desc">${item.desc}</div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            // 渲染所有动态分类
+            function renderAllSections() {
+                dynamicContainer.innerHTML = '';
+                const fragment = document.createDocumentFragment();
+
+                sections.forEach(sec => {
+                    const titleDiv = document.createElement('div');
+                    titleDiv.className = 'section-title';
+                    titleDiv.innerHTML = `<span class="accent-bar"></span>${sec.title}`;
+                    fragment.appendChild(titleDiv);
+
+                    const grid = document.createElement('div');
+                    grid.className = 'grid';
+                    grid.id = sec.id;
+                    fragment.appendChild(grid);
+
+                    const items = linkData.filter(item => item.category === sec.category);
+                    items.forEach(item => {
+                        grid.appendChild(createCardElement(item));
+                    });
+                });
+
+                dynamicContainer.appendChild(fragment);
+
+                const comingGrid = document.getElementById('grid-coming');
+                comingGrid.innerHTML = '';
+                const comingFragment = document.createDocumentFragment();
+                linkData.filter(item => item.category === 'coming').forEach(item => {
+                    comingFragment.appendChild(createCardElement(item));
+                });
+                comingGrid.appendChild(comingFragment);
+            }
+
+            renderCertSection();
+            renderAllSections();
+
+            // 事件委托：处理“即将上线”卡片点击
+            document.addEventListener('click', function(e) {
+                const comingCard = e.target.closest('.card.coming');
+                if (comingCard) {
+                    e.preventDefault();
+                    const name = comingCard.querySelector('.name')?.textContent.replace('即将上线', '').trim();
+                    showToast(`⏳ ${name || '该功能'} 正在开发中，敬请期待！`);
+                }
+            });
+
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+            const schoolInput = document.getElementById('schoolInput');
+            const schoolBtn = document.getElementById('schoolBtn');
+            const toastEl = document.getElementById('toast');
+            let toastTimer;
+
+            function showToast(msg, duration = 2000) {
+                if (toastTimer) clearTimeout(toastTimer);
+                toastEl.textContent = msg;
+                toastEl.classList.add('show');
+                toastTimer = setTimeout(() => toastEl.classList.remove('show'), duration);
+            }
+
+            function performSearch(query) {
+                const q = query.trim();
+                if (!q) { showToast('💡 请输入关键词再搜索'); searchInput.focus(); return; }
+                window.open(`https://cn.bing.com/search?q=${encodeURIComponent(q)}`, '_blank');
+            }
+
+            searchBtn.addEventListener('click', () => performSearch(searchInput.value));
+            searchInput.addEventListener('keypress', e => { if (e.key === 'Enter') performSearch(searchInput.value); });
+
+            schoolBtn.addEventListener('click', () => {
+                const name = schoolInput.value.trim();
+                if (!name) { showToast('请输入大学名称'); return; }
+                window.open(`https://cn.bing.com/search?q=${encodeURIComponent(name + ' 官网')}`, '_blank');
+            });
+            schoolInput.addEventListener('keypress', e => { if (e.key === 'Enter') schoolBtn.click(); });
+
+            // 今日推荐
+            function applyDailyRecommend() {
+                const today = new Date().toDateString();
+                const lastDate = localStorage.getItem('recDate');
+                let recIndex = localStorage.getItem('recIndex');
+                const eligible = linkData.filter(item => !item.coming);
+                if (lastDate !== today || recIndex === null) {
+                    recIndex = Math.floor(Math.random() * eligible.length);
+                    localStorage.setItem('recDate', today);
+                    localStorage.setItem('recIndex', recIndex);
+                }
+                const recItem = eligible[recIndex];
+                如果 (!recItem) 返回;
+                document.querySelectorAll('.card:not(.coming)').forEach(card => {
+                    如果 (card.querySelector('.name')?.textContent 包含 recItem.name) {
+                        card.classList.add('today-rec');
+                    }
+                });
+            }
+            applyDailyRecommend();
+
+            if (!localStorage.getItem('bookmarkHint')) {
+                setTimeout(() => {
+                    const hint = document.createElement('div');
+                    hint.className = 'bookmark-hint';
+                    hint.innerHTML = '💡 按 <kbd>Ctrl+D</kbd> (Mac: <kbd>⌘D</kbd>) 收藏本站';
+                    document.body.appendChild(hint);
+                    setTimeout(() => hint.remove(), 6000);
+                }, 1000);
+                localStorage.setItem('bookmarkHint', '1');
+            }
+
+            console.log('🎓 新生中转站（考证时间优化版）已加载！');
+        })();
+    </script>
+</body>
+</html>
